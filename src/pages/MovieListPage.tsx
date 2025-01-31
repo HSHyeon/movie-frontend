@@ -6,6 +6,7 @@ import {MovieType} from "../components/movie/Movie.type.ts";
 import {useNavigate} from "react-router";
 import {PATH} from "../global/constants.ts";
 import {axiosInstance} from "../global/axiosInstance.ts";
+import LogoutButton from "../components/user/LogoutButton.tsx";
 
 function MovieListPage() {
     const navigate = useNavigate();
@@ -29,17 +30,17 @@ function MovieListPage() {
     }, [])
 
     return (
-
         <>
             <Container>
-                <div className="d-flex justify-content-end mb-3">
+                <div className="d-flex justify-content-end mb-3 gap-2">
                     {role == "ROLE_ADMIN" ?
-                        <Button variant="primary" onClick={() => {
+                        <Button onClick={() => {
                             navigate(PATH.writeMovie)
                         }}>영화추가</Button> :
-                        <Button variant="secondary" onClick={() => {
+                        <Button onClick={() => {
                             navigate(PATH.updateRole)
                         }}>권한요청</Button>}
+                    <LogoutButton/>
                 </div>
                 <Row className="row-gap-3 row-cols-xl-4 row-cols-lg-3">
                     {

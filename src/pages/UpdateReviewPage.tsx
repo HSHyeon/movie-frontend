@@ -1,4 +1,3 @@
-import "bootstrap-icons/font/bootstrap-icons.css";
 import {useNavigate, useParams} from "react-router";
 import InputBase from "../components/InputBase.tsx";
 import StarRating from "../components/StarRating.tsx";
@@ -26,8 +25,8 @@ function UpdateReviewPage() {
                 if (data.result === 'success') {
                     console.log(data)
                     dispatch({
-                        type:"ON_SHOW_ONE_LOAD",
-                        payload:data.item
+                        type: "ON_SHOW_ONE_LOAD",
+                        payload: data.item
                     })
                 }
 

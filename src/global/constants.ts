@@ -1,5 +1,6 @@
 export const PATH = {
     root: "/",
+    register: "/register",
     movie: "/movie",
     movieDetail: (id: string) => `/movie/${id}`,
     writeMovie: "/movie/write",

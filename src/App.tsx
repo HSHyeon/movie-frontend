@@ -10,6 +10,7 @@ import ReviewListPage from "./pages/ReviewListPage.tsx";
 import UpdateMoviePage from "./pages/UpdateMoviePage.tsx";
 import UpdateReviewPage from "./pages/UpdateReviewPage.tsx";
 import UpdateRolePage from "./pages/UpdateRolePage.tsx";
+import RegisterPage from "./pages/RegisterPage.tsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <BrowserRouter>
           <Routes>
               <Route path={PATH.root} element={<LoginPage/>}/>
+              <Route path={PATH.register} element={<RegisterPage/>}/>
               <Route path={PATH.movie} element={<MovieListPage/>}/>
               <Route path={PATH.updateRole} element={<UpdateRolePage/>}/>
               <Route path={PATH.writeMovie} element={<WriteMoviePage/>}/>

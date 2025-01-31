@@ -1,24 +1,23 @@
 import {useReducer} from "react";
-import axios from "axios";
 import Swal from 'sweetalert2'
-import {Button, Form} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {UserReducer} from "../reducers/UserReducer.tsx";
 import {useNavigate} from "react-router";
 import {PATH} from "../global/constants.ts";
 import {UserType} from "../components/user/User.type.ts";
+import {axiosInstance} from "../global/axiosInstance.ts";
+import InputBase from "../components/InputBase.tsx";
 
 const initialState: UserType =
     {
-        inputs: {
-            username: '',
-            password: ''
-        }
+        username: '',
+        password: ''
     }
 
 function LoginPage() {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(UserReducer, initialState)
-    const {username, password} = state.inputs
+    const {username, password} = state
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -28,17 +27,12 @@ function LoginPage() {
         });
     };
     const onLogIn = () => {
-        axios.post('http://localhost:8080/api/user/auth', {
-            username: username,
-            password: password
-        }, {
-            withCredentials: true
-        }).then((resp) => {
+        axiosInstance.post('/user/auth', state).then((resp) => {
             const {data} = resp;
             console.log(resp)
             if (data.result == 'success') {
-                localStorage.setItem('role',data.authority)
-                localStorage.setItem('id',data.id)
+                localStorage.setItem('role', data.authority)
+                localStorage.setItem('id', data.id)
                 navigate(PATH.movie)
             } else {
                 Swal.fire({
@@ -56,12 +50,14 @@ function LoginPage() {
         })
     }
     return (
-        <div style={{display: 'grid', gap: '5px'}}>
-            <Form.Control name='username' placeholder='아이디' value={username} onChange={onChange}/>
-            <Form.Control type='password' placeholder='비밀번호' name='password' value={password} onChange={onChange}/>
+        <div className="d-grid gap-2">
+            <InputBase name='username' placeholder='아이디' value={username} change={onChange}/>
+            <InputBase type='password' placeholder='비밀번호' name='password' value={password} change={onChange}/>
             <div style={{display: 'flex', gap: '5px'}}>
                 <Button variant="primary" onClick={onLogIn}>로그인</Button>
-                <Button variant="secondary">회원가입</Button>
+                <Button variant="secondary" onClick={() => {
+                    navigate(PATH.register)
+                }}>회원가입</Button>
             </div>
         </div>
     );

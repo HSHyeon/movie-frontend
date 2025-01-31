@@ -1,4 +1,4 @@
-import {UserStateType} from "../pages/LoginPage.tsx";
+import {UserType} from "../components/user/User.type.ts";
 
 export type ActionType = {
     type: string;
@@ -8,15 +8,12 @@ export type ActionType = {
     };
 };
 
-export function UserReducer(state:UserStateType, action: ActionType): UserStateType {
+export function UserReducer(state: UserType, action: ActionType): UserType {
     switch (action.type) {
         case "ON_CHANGE":
             return {
                 ...state,
-                inputs: {
-                    ...state.inputs,
-                    [action.payload!.name]: action.payload!.value,
-                },
+                [action.payload!.name]: action.payload!.value,
             };
         default:
             return state;
