@@ -13,5 +13,4 @@ export type MovieInputType = {
     content: string;
     genre: string;
     releaseDate: Date;
-    writerId: string;
 }

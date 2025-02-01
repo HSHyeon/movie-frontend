@@ -1,9 +1,8 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {useNavigate, useParams} from "react-router";
-import InputBase from "../components/InputBase.tsx";
 import StarRating from "../components/StarRating.tsx";
 import Header from "../components/Header.tsx";
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {useReducer} from "react";
 import {ReviewReducer} from "../reducers/ReviewReducer.tsx";
 import {ReviewInputType} from "../components/review/Review.type.ts";
@@ -11,8 +10,7 @@ import {axiosInstance} from "../global/axiosInstance.ts";
 import Swal from "sweetalert2";
 
 const initialState: ReviewInputType = {
-    writerId: "",
-    score: 0, content: ""
+    score: 0, content: "", movieId: 0
 }
 
 function WriteReviewPage() {
@@ -29,49 +27,42 @@ function WriteReviewPage() {
         });
     }
     const handleRatingChange = (newRating: number) => {
-        console.log("사용자가 선택한 별점:", newRating);
         const name = "score"
         dispatch({
             type: "ON_CHANGE",
             payload: {name, value: newRating}
         })
     };
-    const onWrite = () => {
 
-        const requestData = {
-            ...state,
-            writerId: localStorage.getItem('id')
-        };
-        console.log("전송할 데이터:", requestData);
-        axiosInstance.post(`/review/write/${id}`,
-            requestData
-        ).then((resp) => {
-            const {data} = resp;
-            if (data.result == 'success') {
-                navigate(-1)
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    text: data.message
-                })
+    const onWrite = async () => {
+        try {
+            // 리뷰 점수 저장
+            const scoreResponse = await axiosInstance.post(`/review/write/score`, {
+                ...state, movieId: id
+            });
+
+            if (scoreResponse.data.result !== 'success') {
+                throw new Error(scoreResponse.data.message || "점수 저장 실패");
             }
 
-        }).catch((e) => {
-            if (e.status == 403) {
-                Swal.fire({
-                    icon: 'error',
-                    text: '작성권한이 없습니다'
-                })
-                navigate(-1)
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    text: '작성실패'
-                })
+            // 리뷰 코멘트 저장, 평론가 이상만 가능
+            if(state.content) {
+                await axiosInstance.post('/review/write/content', {
+                    id: scoreResponse.data.reviewId,
+                    content: state.content
+                });
             }
+            Swal.fire({icon: 'success', text: '리뷰가 작성되었습니다'});
+            navigate(-1)
+        } catch (e) {
+            if (e.status === 403) {
+                Swal.fire({icon: 'error', text: '코멘트 작성 권한이 없습니다'});
+            } else {
+                Swal.fire({icon: 'error', text: e.message || '작성 실패'});
+            }
+        }
+    };
 
-        })
-    }
     return (
 
         <div className='d-grid gap-3 border p-5 rounded rounded-3 border-1'>
@@ -81,7 +72,7 @@ function WriteReviewPage() {
             {role !== 'ROLE_USER' &&
                 <div className='d-grid gap-2'>
                     <label htmlFor='content'>코멘트</label>
-                    <InputBase name='content' change={onChange}/>
+                    <Form.Control name='content' onChange={onChange}/>
                 </div>
             }
             <Button onClick={onWrite}>등록</Button>

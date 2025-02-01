@@ -7,7 +7,7 @@ export type ReviewType = {
 }
 
 export type ReviewInputType = {
-    writerId: string;
+    movieId: number;
     score: number;
     content: string;
 }

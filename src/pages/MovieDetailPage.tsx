@@ -6,7 +6,6 @@ import Header from "../components/Header.tsx";
 import {ReviewType} from "../components/review/Review.type.ts";
 import ReviewPreList from "../components/review/ReviewPreList.tsx";
 import Swal from "sweetalert2";
-import axios from "axios";
 import {Image} from "react-bootstrap";
 import {PATH} from "../global/constants.ts";
 
@@ -30,11 +29,9 @@ function MovieDetailPage() {
             .then((resp) => {
                 const {data} = resp
                 if (data.result === 'success') {
-                    console.log(data)
                     setMovie(data.item)
                     setReviews(data.review)
                 }
-
             })
     }, [])
     const handleModify = () => {
@@ -58,6 +55,13 @@ function MovieDetailPage() {
                             icon: "success"
                         }).then(() => {
                             navigate(-1);
+                        })
+                    }
+                }).catch((e)=>{
+                    if (e.status == 403) {
+                        Swal.fire({
+                            icon: 'error',
+                            text: '삭제 권한이 없습니다'
                         })
                     }
                 })
@@ -85,8 +89,7 @@ function MovieDetailPage() {
                 <div className="text-start d-grid d-sm-flex gap-5 mt-5">
                     <img src={movie.imageUrl === "default.jpg" ? "/default.jpg" : movie.imageUrl}
                          style={{height: "30rem", width: "21rem", objectFit: "cover"}}
-                         className='top-0 start-0 shadow shadow-sm border border-1 z-3' alt={movie.imageUrl}/>
-
+                         className='top-0 start-0 shadow border border-1 z-3' alt={movie.imageUrl}/>
                     <div className="my-2 flex-grow-1 d-flex flex-column justify-content-end gap-3">
                         <div>
                             <p className='text-muted'>{new Date(movie.releaseDate).getFullYear()} • {movie.genre}</p>
@@ -95,7 +98,6 @@ function MovieDetailPage() {
                         </div>
                         <ReviewPreList score={movie.averageRating} id={id} reviews={reviews}/>
                     </div>
-
                 </div>
             </div>
         </>

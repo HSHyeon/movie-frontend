@@ -1,8 +1,7 @@
 import {useNavigate, useParams} from "react-router";
-import InputBase from "../components/InputBase.tsx";
 import StarRating from "../components/StarRating.tsx";
 import Header from "../components/Header.tsx";
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {useEffect, useReducer} from "react";
 import {ReviewReducer} from "../reducers/ReviewReducer.tsx";
 import {ReviewInputType} from "../components/review/Review.type.ts";
@@ -10,8 +9,7 @@ import {axiosInstance} from "../global/axiosInstance.ts";
 import Swal from "sweetalert2";
 
 const initialState: ReviewInputType = {
-    writerId: "",
-    score: 0, content: ""
+    score: 0, content: "", movieId: 0
 }
 
 function UpdateReviewPage() {
@@ -48,15 +46,9 @@ function UpdateReviewPage() {
             payload: {name, value: newRating}
         })
     };
-    const onWrite = () => {
-
-        const requestData = {
-            ...state,
-            writerId: localStorage.getItem('id')
-        };
-        console.log("전송할 데이터:", requestData);
+    const onUpdate = () => {
         axiosInstance.post(`/review/update`,
-            requestData
+            state
         ).then((resp) => {
             const {data} = resp;
             if (data.result == 'success') {
@@ -85,7 +77,6 @@ function UpdateReviewPage() {
         })
     }
     return (
-
         <div className='d-grid gap-3 border p-5 rounded rounded-3 border-1'>
             <Header/>
             <h4>리뷰 수정</h4>
@@ -93,10 +84,10 @@ function UpdateReviewPage() {
             {role !== 'ROLE_USER' &&
                 <div className='d-grid gap-2'>
                     <label htmlFor='content'>코멘트</label>
-                    <InputBase name='content' value={state.content} change={onChange}/>
+                    <Form.Control name='content' value={state.content} onChange={onChange}/>
                 </div>
             }
-            <Button onClick={onWrite}>등록</Button>
+            <Button onClick={onUpdate}>등록</Button>
         </div>
     );
 }
