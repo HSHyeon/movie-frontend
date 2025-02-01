@@ -1,4 +1,3 @@
-import InputBase from "../components/InputBase.tsx";
 import {Button, Form} from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {useNavigate, useParams} from "react-router";
@@ -10,14 +9,14 @@ import Header from "../components/Header.tsx";
 import {MovieInputType} from "../components/movie/Movie.type.ts";
 
 const initialState: MovieInputType = {
-    imageUrl: "", writerId: "",
+    imageUrl: "",
     title: "", genre: "", content: "", releaseDate: new Date()
 }
 
 function UpdateMoviePage() {
     const navigate = useNavigate()
     const {id} = useParams()
-    const [state, dispatch] = useReducer(MovieReducer,initialState)
+    const [state, dispatch] = useReducer(MovieReducer, initialState)
     useEffect(() => {
         axiosInstance.get(`/movie/detail/${id}`)
             .then((resp) => {
@@ -25,8 +24,8 @@ function UpdateMoviePage() {
                 if (data.result === 'success') {
                     console.log(data)
                     dispatch({
-                        type:"ON_SHOW_ONE_LOAD",
-                        payload:data.item
+                        type: "ON_SHOW_ONE_LOAD",
+                        payload: data.item
                     })
                 }
 
@@ -54,7 +53,9 @@ function UpdateMoviePage() {
                 Swal.fire({
                     icon: 'success',
                     text: '수정 완료'
-                }).then(()=>{   navigate(-1)})
+                }).then(() => {
+                    navigate(-1)
+                })
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -84,13 +85,15 @@ function UpdateMoviePage() {
             <div className='d-grid text-start gap-2'>
                 <h2 className=' fw-bold'>영화 수정하기</h2>
                 <label htmlFor='title'>제목</label>
-                <InputBase name='title' change={onChange} value={state.title}/>
+                <Form.Control name='title' onChange={onChange} value={state.title}/>
+                <label htmlFor='imageUrl'>포스터</label>
+                <Form.Control name='imageUrl' placeholder="이미지url" onChange={onChange}/>
                 <label htmlFor='genre'>장르</label>
-                <InputBase name='genre' change={onChange} value={state.genre}/>
+                <Form.Control name='genre' onChange={onChange} value={state.genre}/>
                 <label htmlFor='releaseDate'>개봉일</label>
                 <Form.Control type='date' name='releaseDate' value={state.releaseDate} onChange={onChange}/>
                 내용
-                <InputBase name='content' change={onChange} value={state.content}/>
+                <Form.Control as="textarea" name='content' onChange={onChange} value={state.content}/>
                 <Button variant='primary' onClick={onUpdate}>작성</Button>
             </div>
         </>
