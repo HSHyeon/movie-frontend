@@ -1,4 +1,4 @@
-import {useEffect, useReducer} from "react";
+import {useEffect, useReducer, useState} from "react";
 import {MovieReducer} from "../reducers/MovieReducer.tsx";
 import MovieItem from "../components/movie/MovieItem.tsx";
 import {Button, Col, Container, Row} from "react-bootstrap";
@@ -7,27 +7,31 @@ import {useNavigate} from "react-router";
 import {PATH} from "../global/constants.ts";
 import {axiosInstance} from "../global/axiosInstance.ts";
 import LogoutButton from "../components/user/LogoutButton.tsx";
+import PaginationComp from "../components/PaginationComp.tsx";
 
 function MovieListPage() {
     const navigate = useNavigate();
     const role = localStorage.getItem('role');
+    const [page, setPage] = useState<number>(1)
+    const [totalPages, setTotalPages] = useState(1);
     const [state, dispatch] = useReducer(MovieReducer, {list: []})
     useEffect(() => {
-        axiosInstance.get(`/movie`)
+        axiosInstance.get(`/movie?page=${page}`)
             .then((resp) => {
                 const {data} = resp
+                console.log(resp)
                 if (data.result === 'success') {
                     state.list = data.list;
+                    setTotalPages(data.total)
                 }
                 dispatch({
                     type: 'ON_SHOW_ALL_LOAD',
                     payload: state
                 })
-                console.log(state.list)
             }).catch(() => {
             navigate('/')
         })
-    }, [])
+    }, [page])
 
     return (
         <>
@@ -51,6 +55,9 @@ function MovieListPage() {
                         ))
                     }
                 </Row>
+                <PaginationComp active={page} totalPages={totalPages} change={(num)=>{
+                    setPage(num)
+                }}/>
             </Container>
         </>
     );
