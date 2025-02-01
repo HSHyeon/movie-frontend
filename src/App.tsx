@@ -26,7 +26,7 @@ function App() {
 
         if (!currentUser) {
             return (
-                <Navigate replace to="/" state={{ from: location.pathname }} />
+                <Navigate replace to={PATH.login} state={{ from: location.pathname }} />
             );
         }
         return <Outlet />;

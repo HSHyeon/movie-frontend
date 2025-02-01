@@ -50,7 +50,7 @@ function WriteMoviePage() {
             .then((resp) => {
                 const { data } = resp;
                 if (data.result == "success") {
-                    navigate(PATH.movie);
+                    navigate(PATH.root);
                 } else {
                     Swal.fire({
                         icon: "error",

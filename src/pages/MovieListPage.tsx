@@ -3,7 +3,7 @@ import { MovieReducer } from "../reducers/MovieReducer.tsx";
 import MovieItem from "../components/movie/MovieItem.tsx";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { MovieType } from "../components/movie/Movie.type.ts";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { PATH } from "../global/constants.ts";
 import { axiosInstance } from "../global/axiosInstance.ts";
 import LogoutButton from "../components/user/LogoutButton.tsx";
@@ -11,8 +11,9 @@ import PaginationComp from "../components/PaginationComp.tsx";
 
 function MovieListPage() {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = Number(searchParams.get("page")) || 1;
     const role = localStorage.getItem("role");
-    const [page, setPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState(1);
     const [state, dispatch] = useReducer(MovieReducer, { list: [] });
     useEffect(() => {
@@ -72,7 +73,7 @@ function MovieListPage() {
                     active={page}
                     totalPages={totalPages}
                     change={(num) => {
-                        setPage(num);
+                        setSearchParams({ page: num.toString() });
                     }}
                 />
             </Container>

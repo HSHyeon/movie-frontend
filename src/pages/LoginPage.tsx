@@ -16,7 +16,7 @@ function LoginPage() {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(UserReducer, initialState);
     const { username, password } = state;
-
+    // TODO 토큰 만료됐을 때 로그아웃 및 페이지 이동 처리
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         dispatch({
