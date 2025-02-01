@@ -75,7 +75,7 @@ function ReviewListPage() {
                 )}
                 <Button
                     variant="primary"
-                    className="mt-3 px-4 py-2"
+                    className="mt-1 px-4 py-2"
                     onClick={() => navigate(PATH.writeReview(id))}
                 >
                     리뷰 작성

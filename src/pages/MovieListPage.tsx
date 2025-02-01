@@ -32,13 +32,13 @@ function MovieListPage() {
                 });
             })
             .catch(() => {
-                navigate("/");
+                navigate(PATH.login);
             });
-    }, [page]);
+    }, [navigate, page, state]);
 
     return (
         <>
-            <Container>
+            <Container className="vw-100">
                 <div className="d-flex justify-content-end mb-3 gap-2">
                     {role == "ROLE_ADMIN" ? (
                         <Button

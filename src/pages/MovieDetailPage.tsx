@@ -82,8 +82,9 @@ function MovieDetailPage() {
                                 : movie.imageUrl
                         }
                         alt={movie.title}
-                        className="position-absolute top-0 start-0 w-100 h-25 z-0 m-0 image-gradient"
+                        className="position-absolute top-0 start-0 w-100 z-0 m-0 image-gradient"
                         style={{
+                            height: "18rem",
                             objectFit: "cover",
                             filter: "grayscale(1) brightness(0.5)",
                         }}
@@ -111,19 +112,19 @@ function MovieDetailPage() {
                                 width: "21rem",
                                 objectFit: "cover",
                             }}
-                            className="top-0 start-0 shadow border border-1 z-3"
+                            className="top-0 start-0 shadow z-3"
                             alt={movie.imageUrl}
                         />
-                        <div className="my-2 flex-grow-1 d-flex flex-column justify-content-end gap-3">
-                            <div>
-                                <p className="text-muted">
+                        <div className="flex-grow-1 d-flex flex-column justify-content-end">
+                            <div className="p-3 rounded-3 bg-white z-3 d-grid gap-3">
+                                <div><p className="text-muted">
                                     {new Date(movie.releaseDate).getFullYear()}{" "}
                                     • {movie.genre}
                                 </p>
                                 <h3 className="fw-bolder mt-2">
                                     {movie.title}
                                 </h3>
-                                <div>{movie.content}</div>
+                                <div style={{ whiteSpace: "pre-wrap"}}>{movie.content}</div>
                             </div>
                             <ReviewPreList
                                 score={movie.averageRating}
@@ -132,7 +133,7 @@ function MovieDetailPage() {
                             />
                         </div>
                     </div>
-                </div>
+                    </div></div>
             </>
         )
     );
