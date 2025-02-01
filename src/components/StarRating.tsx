@@ -1,10 +1,12 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+
 interface StarRatingProps {
     max?: number;
     value?: number;
     onChange?: (value: number) => void;
 }
-function StarRating({ max = 5, onChange, value }:StarRatingProps) {
+
+function StarRating({ max = 5, onChange, value }: StarRatingProps) {
     const [rating, setRating] = useState<number>(value ?? 0);
     const [hover, setHover] = useState<number>(0);
     useEffect(() => {
@@ -13,7 +15,7 @@ function StarRating({ max = 5, onChange, value }:StarRatingProps) {
         }
     }, [value]);
 
-    const handleClick = (value:number) => {
+    const handleClick = (value: number) => {
         setRating(value);
         if (onChange) onChange(value);
     };
@@ -31,7 +33,11 @@ function StarRating({ max = 5, onChange, value }:StarRatingProps) {
                         xmlns="http://www.w3.org/2000/svg"
                         width="30"
                         height="30"
-                        fill={starValue <= (hover || rating) ? "#ffc107" : "#d6d8df"}
+                        fill={
+                            starValue <= (hover || rating)
+                                ? "#ffc107"
+                                : "#d6d8df"
+                        }
                         viewBox="0 0 24 24"
                         className="star"
                         style={{ cursor: "pointer" }}

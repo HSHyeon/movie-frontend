@@ -1,9 +1,9 @@
-import {ReviewType} from "./Review.type.ts";
-import {Card, Col, Row} from "react-bootstrap";
-import {PATH} from "../../global/constants.ts";
-import {useNavigate} from "react-router";
+import { ReviewType } from "./Review.type.ts";
+import { Card, Col, Row } from "react-bootstrap";
+import { PATH } from "../../global/constants.ts";
+import { useNavigate } from "react-router";
 
-function ReviewItem({review, onDelete}: { review: ReviewType , onDelete: (id:string)=>void }) {
+function ReviewItem({ review, onDelete }: { review: ReviewType, onDelete: (id: string) => void }) {
     const userId = localStorage.getItem('id')
     const navigate = useNavigate();
     const handleModify = () => {
@@ -13,7 +13,7 @@ function ReviewItem({review, onDelete}: { review: ReviewType , onDelete: (id:str
     };
 
     return (
-        <Card className="review-item shadow-sm p-3 my-3 text-start" style={{minWidth: "30rem"}}>
+        <Card className="review-item shadow-sm p-3 my-3 text-start" style={{ minWidth: "30rem" }}>
             <Card.Body>
                 <Row className="align-items-center mb-2">
                     <Col xs="auto" className="d-flex align-items-center gap-2">
@@ -24,12 +24,12 @@ function ReviewItem({review, onDelete}: { review: ReviewType , onDelete: (id:str
                     {userId == review.writerId && (
                         <Col className="d-flex text-end align-items-center gap-2">
                             <a className="text-muted" onClick={handleModify}>수정</a>
-                            <a className="text-danger" onClick={()=>onDelete(review.id)}>삭제</a>
+                            <a className="text-danger" onClick={() => onDelete(review.id)}>삭제</a>
                         </Col>
                     )}
                 </Row>
 
-                <p className="review-content text-muted" style={{lineHeight: "1.5"}}>
+                <p className="review-content text-muted" style={{ lineHeight: "1.5" }}>
                     {review.content}
                 </p>
             </Card.Body>

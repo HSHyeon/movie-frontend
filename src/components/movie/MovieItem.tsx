@@ -17,7 +17,7 @@ function MovieItem({item}: { item: MovieType }) {
 
                 <Card.Img src={item.imageUrl} style={{height: "20rem", objectFit: "cover"}}
                           className="border border-1"/>
-                <div className="hover-content">
+                <div className="hover-content shadow">
                     <p className="title fs-5 fw-bold">{item.title}</p>
                     <p className="text-light release-year">{new Date(item.releaseDate).getFullYear()} • {item.genre}</p>
                     <div className="rating mt-1">

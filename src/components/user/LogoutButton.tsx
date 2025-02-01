@@ -1,12 +1,12 @@
-import {Button} from "react-bootstrap";
-import {useNavigate} from "react-router";
-import {axiosInstance} from "../../global/axiosInstance.ts";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import { axiosInstance } from "../../global/axiosInstance.ts";
 
 function LogoutButton() {
     const navigate = useNavigate();
-    const onLogout = () =>{
+    const onLogout = () => {
         localStorage.clear()
-        axiosInstance.get('/user/logout').then(()=>{
+        axiosInstance.get('/user/logout').then(() => {
             navigate('/')
         })
     }
