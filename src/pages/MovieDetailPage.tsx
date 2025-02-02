@@ -84,7 +84,7 @@ function MovieDetailPage() {
                         alt={movie.title}
                         className="position-absolute top-0 start-0 w-100 z-0 m-0 image-gradient"
                         style={{
-                            height: "18rem",
+                            height: "17rem",
                             objectFit: "cover",
                             filter: "grayscale(1) brightness(0.5)",
                         }}

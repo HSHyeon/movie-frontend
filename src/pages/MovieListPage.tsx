@@ -38,7 +38,7 @@ function MovieListPage() {
 
     return (
         <>
-            <Container className="vw-100">
+            <Container className="vw-100" style={{maxWidth:"70rem"}}>
                 <div className="d-flex justify-content-end mb-3 gap-2">
                     {role == "ROLE_ADMIN" ? (
                         <Button
