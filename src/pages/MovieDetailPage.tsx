@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {SyntheticEvent, useEffect, useState} from "react";
 import { useNavigate, useParams } from "react-router";
 import { MovieType } from "../components/movie/Movie.type.ts";
 import { axiosInstance } from "../global/axiosInstance.ts";
@@ -24,20 +24,25 @@ function MovieDetailPage() {
     const navigate = useNavigate();
     const [movie, setMovie] = useState<MovieType>(initialState);
     const [reviews, setReviews] = useState<ReviewType[]>([]);
+    const [reviewTotal, setReviewTotal] = useState<number>(0)
     useEffect(() => {
         axiosInstance.get(`/movie/detail/${id}`).then((resp) => {
             const { data } = resp;
             if (data.result === "success") {
                 setMovie(data.item);
                 setReviews(data.review);
+                setReviewTotal(data.reviewTotal)
             }
         });
-    }, []);
+    }, [id]);
     const handleModify = () => {
         if (id != null) {
             navigate(PATH.updateMovie(id));
         }
     };
+    const handleErrorImg =(e: SyntheticEvent<HTMLImageElement, Event>)=>{
+        e.currentTarget.src="/default.jpg"
+    }
     const handleDelete = () => {
         Swal.fire({
             text: "정말 삭제하시겠습니까?",
@@ -82,6 +87,7 @@ function MovieDetailPage() {
                                 : movie.imageUrl
                         }
                         alt={movie.title}
+                        onError={handleErrorImg}
                         className="position-absolute top-0 start-0 w-100 z-0 m-0 image-gradient"
                         style={{
                             height: "17rem",
@@ -107,6 +113,7 @@ function MovieDetailPage() {
                                     ? "/default.jpg"
                                     : movie.imageUrl
                             }
+                            onError={handleErrorImg}
                             style={{
                                 height: "30rem",
                                 width: "21rem",
@@ -129,6 +136,7 @@ function MovieDetailPage() {
                             <ReviewPreList
                                 score={movie.averageRating}
                                 id={id}
+                                total={reviewTotal}
                                 reviews={reviews}
                             />
                         </div>

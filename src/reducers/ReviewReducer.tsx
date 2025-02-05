@@ -2,6 +2,7 @@ import {ReviewType} from "../components/review/Review.type.ts";
 
 interface ReviewState {
     list: ReviewType[];
+    total: number;
     loading: boolean;
 }
 
@@ -11,6 +12,7 @@ export function ReviewReducer(state:ReviewState, action) {
             return {
                 ...state,
                 list: action.payload.list || [],
+                total: action.payload.total || 0,
                 loading: false
             };
         case "ON_SHOW_ONE_LOAD":

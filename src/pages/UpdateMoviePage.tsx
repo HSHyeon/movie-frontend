@@ -89,9 +89,17 @@ function UpdateMoviePage() {
                     value={state.title}
                 />
                 <label htmlFor="imageUrl">포스터</label>
+                {/*TODO 이미지 s3 업로드*/}
+                <Form.Control
+                    name="imageUrl"
+                    type="file"
+                    onChange={onChange}
+                    disabled
+                />
                 <Form.Control
                     name="imageUrl"
                     placeholder="이미지url"
+                    value={state.imageUrl}
                     onChange={onChange}
                 />
                 <label htmlFor="genre">장르</label>

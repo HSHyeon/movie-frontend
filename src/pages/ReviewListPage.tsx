@@ -25,7 +25,7 @@ function ReviewListPage() {
                 if (data.result === "success") {
                     dispatch({
                         type: "ON_SHOW_ALL_LOAD",
-                        payload: { list: data.list },
+                        payload: { list: data.list,total: data.total },
                     });
                 }
             })
@@ -61,7 +61,8 @@ function ReviewListPage() {
         id && (
             <div>
                 <Header />
-                <h4 className="fw-bolder">전체 리뷰</h4>
+                <div className="d-flex justify-content-center align-items-center gap-2"><h4 className="fw-bolder">전체 리뷰</h4>
+                    <h5 className="text-primary fw-bold">{reviews.total}</h5></div>
                 {reviews.list.length ? (
                     reviews.list.map((review: ReviewType) => (
                         <ReviewItem

@@ -3,7 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { ReviewType } from "./Review.type.ts";
 
-function ReviewPreList({ reviews, id, score }: { reviews: ReviewType[], id: string, score: number }) {
+function ReviewPreList({ reviews, id, score,total }: { reviews: ReviewType[], id: string, score: number, total:number }) {
     const navigate = useNavigate()
     return (
         <div>
@@ -11,7 +11,7 @@ function ReviewPreList({ reviews, id, score }: { reviews: ReviewType[], id: stri
                 <p className="fw-bold">리뷰</p>
                 {score != -1 && <a className="text-muted" onClick={() => {
                     navigate(PATH.review(id))
-                }}>⭐{score} 전체보기</a>}
+                }}>⭐{score} ({total}명) 전체보기</a>}
             </div>
             <Card className="text-muted mt-2 text-muted p-3">
                 {
